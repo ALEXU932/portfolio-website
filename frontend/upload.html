@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Images - Portfolio Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <style>
+    body.upload-page {
+      min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    /* Upload page theme support */
+    body.upload-page {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    
+    body.upload-page .bg-white {
+      background-color: var(--bg-primary) !important;
+    }
+    
+    body.upload-page .bg-gray-50 {
+      background-color: var(--bg-secondary) !important;
+    }
+    
+    body.upload-page .border,
+    body.upload-page .border-b {
+      border-color: var(--border-color) !important;
+    }
+    
+    body.upload-page input,
+    body.upload-page textarea,
+    body.upload-page select {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      border-color: var(--border-color);
+    }
+    
+    body.upload-page input::placeholder,
+    body.upload-page textarea::placeholder {
+      color: var(--text-tertiary);
+    }
+    
+    body.upload-page .shadow-md {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    body.upload-page h1,
+    body.upload-page h2,
+    body.upload-page h3,
+    body.upload-page label {
+      color: var(--text-primary);
+    }
+    
+    /* Dark mode specific text colors */
+    body.theme-dark.upload-page h1,
+    body.theme-dark.upload-page h2,
+    body.theme-dark.upload-page h3,
+    body.theme-dark.upload-page label,
+    body.theme-dark.upload-page p {
+      color: var(--text-primary) !important;
+    }
+    
+    body.theme-dark.upload-page .text-gray-700 {
+      color: #d1d5db !important;
+    }
+    
+    body.theme-dark.upload-page .text-gray-600 {
+      color: #9ca3af !important;
+    }
+    
+    body.theme-dark.upload-page .text-gray-500 {
+      color: #6b7280 !important;
+    }
+    
+    /* Gallery items in dark mode */
+    body.theme-dark.upload-page #images-gallery .border {
+      border-color: var(--border-color) !important;
+      background-color: var(--bg-primary);
+    }
+    
+    body.theme-dark.upload-page #images-gallery p {
+      color: var(--text-primary) !important;
+    }
+    
+    /* Links in dark mode */
+    body.theme-dark.upload-page a:not(.text-blue-600):not(.text-red-600) {
+      color: var(--text-primary);
+    }
+    
+    /* Small text in dark mode */
+    body.theme-dark.upload-page .text-sm {
+      color: var(--text-secondary) !important;
+    }
+    
+    body.theme-dark.upload-page .text-xs {
+      color: var(--text-tertiary) !important;
+    }
+    
+    /* Navigation bar theme */
+    body.upload-page nav {
+      background-color: var(--bg-primary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Dark theme — swe.jpg background image */
+    body.theme-dark.upload-page,
+    body:not(.theme-light).upload-page {
+      background-image: url('/images/swe.jpg') !important;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+    }
+
+    body.theme-light.upload-page {
+      background-image: none !important;
+    }
+
+    /* Dark theme — glass transparent main card */
+    body.theme-dark.upload-page .rounded-lg,
+    body:not(.theme-light).upload-page .rounded-lg {
+      background: rgba(255, 255, 255, 0.05) !important;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    body.theme-dark.upload-page .bg-white,
+    body.theme-dark.upload-page .bg-gray-50,
+    body:not(.theme-light).upload-page .bg-white,
+    body:not(.theme-light).upload-page .bg-gray-50 {
+      background: rgba(255, 255, 255, 0.05) !important;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Keep nav solid */
+    body.theme-dark.upload-page nav,
+    body:not(.theme-light).upload-page nav {
+      background: rgba(15, 20, 30, 0.75) !important;
+      backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 upload-page">
+  <!-- Navigation Header -->
+  <nav class="bg-white shadow-lg fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <h1 class="text-2xl font-bold text-blue-600" data-i18n="upload_title">Upload Images</h1>
+        <div class="flex items-center gap-4">
+          <a href="/admin.html" class="text-gray-700 hover:text-blue-600">
+            <i class="fas fa-cog"></i> <span data-i18n="upload_admin_panel">Admin Panel</span>
+          </a>
+          <a href="/" class="text-gray-700 hover:text-blue-600">
+            <i class="fas fa-home"></i> <span data-i18n="upload_home">Home</span>
+          </a>
+          
+          <!-- Language Selector & Theme Toggle in Header -->
+          <select id="language-selector" class="header-language-selector" aria-label="Select Language">
+            <option value="en">EN</option>
+            <option value="am">አማ</option>
+            <option value="ar">ع</option>
+          </select>
+          <button id="theme-toggle" class="header-theme-toggle" aria-label="Toggle Theme" title="Toggle Theme">
+            <i class="fas fa-sun"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-4xl mx-auto px-4 py-8 mt-24">
+    <!-- Main Content Card -->
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <!-- Logo Upload -->
+      <div class="mb-8 border-b pb-8">
+        <h2 class="text-2xl font-semibold mb-4" data-i18n="upload_logo">Upload Logo</h2>
+        <form id="logo-form" class="space-y-4">
+          <div>
+            <label class="block text-gray-700 mb-2" data-i18n="upload_select_logo">Select Logo Image</label>
+            <input type="file" id="logo-input" accept="image/*" required class="w-full px-4 py-2 border rounded-lg">
+          </div>
+          <div id="logo-preview" class="hidden">
+            <img id="logo-preview-img" class="w-32 h-32 object-contain border rounded">
+          </div>
+          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+            <i class="fas fa-upload"></i> <span data-i18n="upload_button">Upload</span>
+          </button>
+        </form>
+        <div id="logo-message" class="mt-4"></div>
+      </div>
+
+      <!-- CV / Resume Upload -->
+      <div class="mb-8 border-b pb-8">
+        <h2 class="text-2xl font-semibold mb-4">
+          <i class="fas fa-file-pdf text-red-500 mr-2"></i>Upload CV / Resume (PDF)
+        </h2>
+        <div id="cv-status-msg" class="mb-4 p-3 rounded-lg text-sm hidden"></div>
+        <form id="cv-form" class="space-y-4">
+          <div>
+            <label class="block text-gray-700 mb-2">Select PDF File (max 10MB)</label>
+            <input type="file" id="cv-input" accept=".pdf,application/pdf" required class="w-full px-4 py-2 border rounded-lg">
+          </div>
+          <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">
+            <i class="fas fa-upload mr-1"></i> Upload CV
+          </button>
+        </form>
+        <div id="cv-message" class="mt-4"></div>
+      </div>
+
+      <!-- Profile Image Upload -->
+      <div class="mb-8 border-b pb-8">
+        <h2 class="text-2xl font-semibold mb-4" data-i18n="upload_profile">Upload Profile Image</h2>
+        <form id="profile-form" class="space-y-4">
+          <div>
+            <label class="block text-gray-700 mb-2" data-i18n="upload_select_profile">Select Profile Image</label>
+            <input type="file" id="profile-input" accept="image/*" required class="w-full px-4 py-2 border rounded-lg">
+          </div>
+          <div id="profile-preview" class="hidden">
+            <img id="profile-preview-img" class="w-48 h-48 object-cover rounded-full border">
+          </div>
+          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+            <i class="fas fa-upload"></i> <span data-i18n="upload_button">Upload</span>
+          </button>
+        </form>
+        <div id="profile-message" class="mt-4"></div>
+      </div>
+
+      <!-- Project Image Upload -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4" data-i18n="upload_project">Upload Project Image</h2>
+        <form id="project-form" class="space-y-4">
+          <div>
+            <label class="block text-gray-700 mb-2" data-i18n="upload_project_name">Project Name</label>
+            <input type="text" id="project-name" required class="w-full px-4 py-2 border rounded-lg" placeholder="My Project">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2" data-i18n="upload_select_project">Select Project Image</label>
+            <input type="file" id="project-input" accept="image/*" required class="w-full px-4 py-2 border rounded-lg">
+          </div>
+          <div id="project-preview" class="hidden">
+            <img id="project-preview-img" class="w-full max-w-md h-48 object-cover rounded border">
+          </div>
+          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+            <i class="fas fa-upload"></i> <span data-i18n="upload_button">Upload</span>
+          </button>
+        </form>
+        <div id="project-message" class="mt-4"></div>
+      </div>
+
+      <!-- Uploaded Images Gallery -->
+      <div class="mt-8">
+        <h2 class="text-2xl font-semibold mb-4" data-i18n="upload_uploaded_images">Uploaded Images</h2>
+        <div id="images-gallery" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div class="col-span-full text-center text-gray-600 py-8">
+            <i class="fas fa-spinner fa-spin text-4xl mb-2"></i>
+            <p data-i18n="upload_loading">Loading images...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/i18n.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/upload.js"></script>
+  
+  <script>
+    // CV Upload
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Check if CV already exists
+      try {
+        const res = await fetch('/api/cv-status');
+        const data = await res.json();
+        const statusMsg = document.getElementById('cv-status-msg');
+        if (statusMsg) {
+          statusMsg.classList.remove('hidden');
+          if (data.exists) {
+            statusMsg.className = 'mb-4 p-3 rounded-lg text-sm bg-green-100 text-green-800';
+            statusMsg.innerHTML = '<i class="fas fa-check-circle mr-1"></i> CV is uploaded and available for download.';
+          } else {
+            statusMsg.className = 'mb-4 p-3 rounded-lg text-sm bg-yellow-100 text-yellow-800';
+            statusMsg.innerHTML = '<i class="fas fa-exclamation-triangle mr-1"></i> No CV uploaded yet. Upload your PDF resume below.';
+          }
+        }
+      } catch (e) {}
+
+      // Handle CV form submit
+      const cvForm = document.getElementById('cv-form');
+      if (cvForm) {
+        cvForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const file = document.getElementById('cv-input').files[0];
+          if (!file) return;
+
+          const formData = new FormData();
+          formData.append('cv', file);
+
+          const msgDiv = document.getElementById('cv-message');
+          msgDiv.innerHTML = '<p class="text-blue-600"><i class="fas fa-spinner fa-spin mr-1"></i> Uploading...</p>';
+
+          try {
+            const res = await fetch('/api/upload-cv', {
+              method: 'POST',
+              body: formData
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+              msgDiv.innerHTML = '<p class="text-green-600 font-semibold"><i class="fas fa-check-circle mr-1"></i> CV uploaded successfully! Visitors can now download it.</p>';
+              // Update status
+              const statusMsg = document.getElementById('cv-status-msg');
+              if (statusMsg) {
+                statusMsg.className = 'mb-4 p-3 rounded-lg text-sm bg-green-100 text-green-800';
+                statusMsg.innerHTML = '<i class="fas fa-check-circle mr-1"></i> CV is uploaded and available for download.';
+              }
+              cvForm.reset();
+            } else {
+              msgDiv.innerHTML = `<p class="text-red-600 font-semibold"><i class="fas fa-exclamation-circle mr-1"></i> ${data.error || 'Upload failed'}</p>`;
+            }
+          } catch (err) {
+            msgDiv.innerHTML = '<p class="text-red-600 font-semibold"><i class="fas fa-exclamation-circle mr-1"></i> Upload failed. Please try again.</p>';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

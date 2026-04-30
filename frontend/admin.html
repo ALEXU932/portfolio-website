@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Only minimal theme variables - no conflicting CSS */
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f9fafb;
+      --bg-tertiary: #f3f4f6;
+      --text-primary: #111827;
+      --text-secondary: #4b5563;
+      --text-tertiary: #6b7280;
+      --border-color: #e5e7eb;
+    }
+    
+    .theme-dark {
+      --bg-primary: #1f2937;
+      --bg-secondary: #111827;
+      --bg-tertiary: #374151;
+      --text-primary: #f9fafb;
+      --text-secondary: #e5e7eb;
+      --text-tertiary: #9ca3af;
+      --border-color: #4b5563;
+    }
+    
+    body {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+      min-height: 100vh;
+    }
+
+    /* Dark theme — swe.jpg background image */
+    body.theme-dark,
+    body:not(.theme-light) {
+      background-image: url('/images/swe.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+    }
+
+    body.theme-light {
+      background-image: none !important;
+    }
+    
+    nav {
+      background-color: var(--bg-primary);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    /* Override Tailwind classes with theme variables */
+    .bg-white, .bg-gray-50, .bg-gray-200 {
+      background-color: var(--bg-primary) !important;
+    }
+    
+    .text-gray-700, .text-gray-600, .text-gray-500 {
+      color: var(--text-secondary) !important;
+    }
+    
+    .border, .border-gray-200, .border-gray-300 {
+      border-color: var(--border-color) !important;
+    }
+    
+    input, textarea, select {
+      background-color: var(--bg-primary) !important;
+      color: var(--text-primary) !important;
+      border-color: var(--border-color) !important;
+    }
+    
+    input::placeholder, textarea::placeholder {
+      color: var(--text-tertiary) !important;
+    }
+    
+    /* Tab and filter buttons */
+    .tab-button {
+      background-color: transparent;
+      color: var(--text-secondary);
+      border: 1px solid transparent;
+    }
+    
+    .tab-button.active {
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+      border-color: #2563eb !important;
+    }
+    
+    .filter-btn {
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+    
+    .filter-btn.active {
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+      border-color: #2563eb !important;
+    }
+    
+    /* Contact cards */
+    .contact-card {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+    }
+
+    /* Dark theme — glass transparent cards */
+    body.theme-dark .contact-card,
+    body:not(.theme-light) .contact-card {
+      background: rgba(255, 255, 255, 0.05) !important;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    body.theme-dark .bg-white,
+    body.theme-dark .bg-gray-50,
+    body.theme-dark .bg-gray-200,
+    body:not(.theme-light) .bg-white,
+    body:not(.theme-light) .bg-gray-50,
+    body:not(.theme-light) .bg-gray-200 {
+      background: rgba(255, 255, 255, 0.05) !important;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Main content panels (project form, project list, contact panel) */
+    body.theme-dark .rounded-lg,
+    body:not(.theme-light) .rounded-lg {
+      background: rgba(255, 255, 255, 0.05) !important;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    /* Keep nav solid so it stays readable */
+    body.theme-dark nav,
+    body:not(.theme-light) nav {
+      background: rgba(15, 20, 30, 0.75) !important;
+      backdrop-filter: blur(12px);
+    }
+
+    /* Keep dropdowns readable */
+    body.theme-dark #profile-dropdown,
+    body:not(.theme-light) #profile-dropdown {
+      background: rgba(20, 25, 40, 0.95) !important;
+      backdrop-filter: blur(12px);
+    }
+    
+    .contact-card.unread {
+      border-left: 4px solid #2563eb;
+    }
+    
+    .contact-card.replied {
+      border-left: 4px solid #16a34a;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .status-badge.unread {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+    
+    .status-badge.read {
+      background-color: #e5e7eb;
+      color: #374151;
+    }
+    
+    .status-badge.replied {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+    
+    .theme-dark .status-badge.unread {
+      background-color: rgba(37, 99, 235, 0.2);
+      color: #93c5fd;
+    }
+    
+    .theme-dark .status-badge.read {
+      background-color: rgba(107, 114, 128, 0.2);
+      color: #9ca3af;
+    }
+    
+    .theme-dark .status-badge.replied {
+      background-color: rgba(22, 163, 74, 0.2);
+      color: #86efac;
+    }
+    
+    /* Message content boxes in dark mode */
+    .theme-dark .bg-gray-50 {
+      background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+    
+    .theme-dark .bg-green-50 {
+      background-color: rgba(34, 197, 94, 0.1) !important;
+    }
+    
+    .theme-dark .bg-gray-50 p,
+    .theme-dark .bg-green-50 p {
+      color: var(--text-primary) !important;
+    }
+    
+    /* Profile dropdown */
+    #profile-dropdown {
+      background-color: var(--bg-primary);
+      border-color: var(--border-color);
+    }
+    
+    #profile-dropdown a,
+    #profile-dropdown button {
+      color: var(--text-primary);
+    }
+    
+    #profile-dropdown a:hover {
+      background-color: var(--bg-secondary);
+    }
+    
+    .theme-dark #profile-dropdown button:hover {
+      background-color: rgba(239, 68, 68, 0.1);
+    }
+    
+    /* Profile image button */
+    #profile-btn {
+      cursor: pointer;
+    }
+    
+    #profile-btn:hover .w-10 {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+    
+    #profile-btn .w-10 {
+      transition: all 0.2s ease;
+    }
+  </style>
+</head>
+<body class="admin-page">
+  <!-- Navigation -->
+  <nav class="shadow-lg fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <h1 class="text-2xl font-bold text-blue-600" data-i18n="admin_title">Portfolio Admin</h1>
+        <div class="flex items-center gap-4">
+          <a href="/upload.html" class="text-gray-700 hover:text-blue-600">
+            <i class="fas fa-image"></i> <span data-i18n="admin_upload_images">Upload Images</span>
+          </a>
+          <a href="/" class="text-gray-700 hover:text-blue-600">
+            <i class="fas fa-home"></i> <span data-i18n="admin_view_portfolio">View Portfolio</span>
+          </a>
+          
+          <!-- Unread Messages Badge -->
+          <div class="relative">
+            <button id="messages-tab-btn" class="text-gray-700 hover:text-blue-600 relative">
+              <i class="fas fa-envelope"></i> <span data-i18n="contacts_title">Messages</span>
+              <span id="unread-badge" class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+            </button>
+          </div>
+          
+          <!-- Admin Profile Dropdown -->
+          <div class="relative">
+            <button id="profile-btn" class="flex items-center gap-2 hover:opacity-80 transition">
+              <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-blue-600 hover:border-blue-700 transition">
+                <img id="admin-profile-img" src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff&size=128" alt="Admin" class="w-full h-full object-cover">
+              </div>
+            </button>
+            
+            <!-- Dropdown Menu -->
+            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+              <a href="/change-password.html" class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-key"></i>
+                <span>Change Password</span>
+              </a>
+              <div class="border-t border-gray-200 my-1"></div>
+              <button id="logout-btn" class="w-full flex items-center gap-3 px-4 py-2 text-red-600 hover:bg-red-50">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Language Selector & Theme Toggle -->
+          <select id="language-selector" class="px-2 py-1 border rounded bg-white text-gray-700" aria-label="Select Language">
+            <option value="en">EN</option>
+            <option value="am">አማ</option>
+            <option value="ar">ع</option>
+          </select>
+          <button id="theme-toggle" class="p-2 rounded hover:bg-gray-100" aria-label="Toggle Theme">
+            <i class="fas fa-sun"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Tab Navigation -->
+      <div class="flex gap-4 border-t pt-3 pb-2">
+        <button id="projects-tab" class="tab-button active px-4 py-2 rounded-lg transition">
+          <i class="fas fa-folder"></i> <span data-i18n="admin_your_projects">Projects</span>
+        </button>
+        <button id="contacts-tab" class="tab-button px-4 py-2 rounded-lg transition relative">
+          <i class="fas fa-envelope"></i> <span data-i18n="contacts_title">Contact Messages</span>
+          <span id="unread-badge-tab" class="hidden ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto px-4 py-8 mt-32">
+    <!-- Projects Section -->
+    <div id="projects-section" class="tab-content">
+      <div class="grid md:grid-cols-2 gap-8">
+      
+        <!-- Add Project Form -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-plus-circle text-blue-600 mr-2"></i>
+            <span data-i18n="admin_add_project">Add New Project</span>
+          </h2>
+          
+          <form id="project-form" class="space-y-4">
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">
+                <i class="fas fa-heading text-blue-600"></i> <span data-i18n="admin_project_title">Project Title</span> *
+              </label>
+              <input type="text" id="title" name="title" required 
+                placeholder="E.g., E-commerce Website"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            </div>
+
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">
+                <i class="fas fa-align-left text-blue-600"></i> <span data-i18n="admin_description">Description</span> *
+              </label>
+              <textarea id="description" name="description" required rows="4"
+                placeholder="Describe your project, its features, and what problems it solves..."
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">
+                <i class="fas fa-code text-blue-600"></i> <span data-i18n="admin_technologies">Technologies Used</span> *
+              </label>
+              <input type="text" id="technologies" name="technologies" required 
+                placeholder="E.g., React, Node.js, MongoDB, Tailwind CSS"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+              <p class="text-sm text-gray-500 mt-1">Separate with commas</p>
+            </div>
+
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">
+                <i class="fab fa-github text-blue-600"></i> <span data-i18n="admin_github">GitHub URL</span>
+              </label>
+              <input type="url" id="github_url" name="github_url" 
+                placeholder="https://github.com/username/project"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            </div>
+
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">
+                <i class="fas fa-external-link-alt text-blue-600"></i> <span data-i18n="admin_live_demo">Live Demo URL</span>
+              </label>
+              <input type="url" id="live_url" name="live_url" 
+                placeholder="https://yourproject.com"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+            </div>
+
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">
+                <i class="fas fa-image text-blue-600"></i> <span data-i18n="admin_project_image">Project Image</span>
+              </label>
+              <div class="flex gap-2">
+                <input type="text" id="image_url" name="image_url" 
+                  placeholder="/uploads/your-image.jpg or https://..."
+                  class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                <button type="button" onclick="openImageSelector()" 
+                  class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+                  <i class="fas fa-folder-open"></i> <span data-i18n="admin_browse">Browse</span>
+                </button>
+              </div>
+              <p class="text-sm text-gray-500 mt-1">Upload images first via <a href="/upload.html" class="text-blue-600 hover:underline" data-i18n="admin_upload_first">Upload Page</a></p>
+            </div>
+
+            <div id="image-preview" class="hidden mt-2">
+              <img id="preview-img" class="w-full h-48 object-cover rounded-lg border" alt="Preview">
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+              <i class="fas fa-save"></i> <span data-i18n="admin_add_button">Add Project</span>
+            </button>
+          </form>
+          
+          <div id="form-message" class="mt-4"></div>
+        </div>
+
+        <!-- Projects List -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-list text-blue-600 mr-2"></i>
+            <span data-i18n="admin_your_projects">Your Projects</span>
+          </h2>
+          
+          <div id="projects-list" class="space-y-4">
+            <div class="text-center text-gray-500 py-8">
+              <i class="fas fa-spinner fa-spin text-4xl mb-2"></i>
+              <p>Loading projects...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Contact Messages Section -->
+    <div id="contacts-section" class="tab-content hidden">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold flex items-center">
+            <i class="fas fa-envelope text-blue-600 mr-2"></i>
+            <span data-i18n="contacts_title">Contact Messages</span>
+          </h2>
+          
+          <div class="flex gap-2">
+            <button class="filter-btn active px-4 py-2 rounded-lg text-sm transition" data-filter="all">
+              <span>All</span>
+            </button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm transition relative" data-filter="unread">
+              <span>Unread</span>
+              <span id="filter-unread-count" class="hidden ml-1 bg-red-500 text-white text-xs rounded-full px-2">0</span>
+            </button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm transition" data-filter="read">
+              <span>Read</span>
+            </button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm transition" data-filter="replied">
+              <span>Replied</span>
+            </button>
+          </div>
+        </div>
+        
+        <div id="contacts-list" class="space-y-4">
+          <!-- Contacts will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Selector Modal -->
+    <div id="image-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-bold" data-i18n="admin_select_image">Select Project Image</h3>
+          <button onclick="closeImageSelector()" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times text-2xl"></i>
+          </button>
+        </div>
+        
+        <div id="modal-images" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div class="col-span-full text-center text-gray-500 py-8">
+            <i class="fas fa-spinner fa-spin text-4xl mb-2"></i>
+            <p data-i18n="admin_loading">Loading images...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/i18n.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/admin.js"></script>
+  <script src="/js/contacts.js"></script>
+  
+  <script>
+    // Profile dropdown toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const profileBtn = document.getElementById('profile-btn');
+      const profileDropdown = document.getElementById('profile-dropdown');
+      const adminProfileImg = document.getElementById('admin-profile-img');
+      
+      // Load profile image
+      fetch('/api/profile')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.path) {
+            adminProfileImg.src = data.path;
+          }
+        })
+        .catch(err => console.log('Using default profile image'));
+      
+      if (profileBtn && profileDropdown) {
+        profileBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          profileDropdown.classList.toggle('hidden');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+            profileDropdown.classList.add('hidden');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

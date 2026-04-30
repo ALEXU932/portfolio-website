@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALEX</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Animations -->
+  <link rel="stylesheet" href="/css/animations.css">
+  <!-- Theme Styles -->
+  <link rel="stylesheet" href="/css/theme.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+    * {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #1f242d;
+      background-image: url('/images/swe.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+      color: #fff;
+    }
+
+    /* Dark theme — all sections transparent so background image shows through */
+    body:not(.theme-light) section,
+    body:not(.theme-light) footer,
+    body.theme-dark section,
+    body.theme-dark footer {
+      background-color: transparent !important;
+    }
+
+    /* Light theme — remove background image, restore solid section backgrounds */
+    body.theme-light {
+      background-image: none !important;
+      background-color: var(--bg-primary) !important;
+    }
+
+    body.theme-light #about,
+    body.theme-light #skills {
+      background-color: var(--bg-secondary) !important;
+    }
+
+    body.theme-light #education,
+    body.theme-light #projects {
+      background-color: var(--bg-primary) !important;
+    }
+
+    body.theme-light #contact {
+      background-color: var(--bg-secondary) !important;
+    }
+
+    body.theme-light footer {
+      background-color: var(--bg-primary) !important;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1f242d;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #00eeff;
+      border-radius: 10px;
+    }
+
+    /* Text Gradient */
+    .text-gradient {
+      background: linear-gradient(45deg, #00eeff, #00ff88);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Neon Border */
+    .neon-border {
+      position: relative;
+      border: 2px solid transparent;
+      border-radius: 50%;
+      background: linear-gradient(#1f242d, #1f242d) padding-box,
+        linear-gradient(45deg, #00eeff, #00ff88) border-box;
+    }
+
+    /* Glass Effect */
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Active Navigation */
+    .nav-link.active {
+      color: #00eeff;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #00eeff;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.1s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor.hover {
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 238, 255, 0.1);
+      border-color: #00ff88;
+    }
+
+    /* Navigation link styles */
+    .nav-link {
+      position: relative;
+      font-size: 1.1rem;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: #00eeff;
+    }
+
+    /* Social media icons */
+    .social-icon {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: 2px solid #00eeff;
+      border-radius: 50%;
+      font-size: 20px;
+      color: #00eeff;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .social-icon:hover {
+      background: #00eeff;
+      color: #1f242d;
+      box-shadow: 0 0 20px #00eeff;
+    }
+
+    /* Button style */
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      background: #00eeff;
+      border-radius: 40px;
+      box-shadow: 0 0 10px #00eeff;
+      font-size: 16px;
+      color: #1f242d;
+      letter-spacing: 1px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      box-shadow: 0 0 20px #00eeff;
+    }
+
+    /* Profile image animation */
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* Particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 238, 255, 0.2);
+      pointer-events: none;
+    }
+
+    /* Profile Image Container - FIXED for full image display */
+    .profile-container {
+      width: 350px;
+      height: 350px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .profile-image-wrapper {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #1f242d;
+      position: relative;
+      z-index: 2;
+    }
+
+    .profile-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .profile-border {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      border-top-color: #00eeff;
+      border-right-color: #00eeff;
+      animation: spin 8s linear infinite;
+      z-index: 1;
+    }
+
+    .profile-border-2 {
+      position: absolute;
+      top: -15px;
+      left: -15px;
+      right: -15px;
+      bottom: -15px;
+      border-radius: 50%;
+      border: 2px dashed #00eeff;
+      opacity: 0.3;
+      animation: spin 12s linear infinite reverse;
+      z-index: 1;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .profile-container {
+        width: 280px;
+        height: 280px;
+      }
+    }
+
+    /* About image fix - IMPROVED to show full face */
+    .about-image-container {
+      width: 320px;
+      height: 320px;
+      position: relative;
+    }
+
+    .about-image-wrapper {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #1f242d;
+    }
+
+    .about-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+    }
+
+    .about-border {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border-radius: 50%;
+      border: 2px dashed #00eeff;
+      animation: spin 10s linear infinite;
+    }
+
+    /* Logo styles - with image and text side by side */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-circle {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid #00eeff;
+      box-shadow: 0 0 15px rgba(0, 238, 255, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .logo-circle:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 238, 255, 0.8);
+    }
+
+    .logo-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #00eeff, #00ff88);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 1px;
+    }
+
+    /* Add a placeholder style in case image doesn't load */
+    .logo-circle img[src=""],
+    .logo-circle img:not([src]) {
+      display: none;
+    }
+
+    .logo-circle:has(img[src=""]),
+    .logo-circle:has(img:not([src])) {
+      background: linear-gradient(45deg, #00eeff, #00ff88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-circle:has(img[src=""]):after,
+    .logo-circle:has(img:not([src])):after {
+      content: "TB";
+      color: #1f242d;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    /* Education Section Styles */
+    .education-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .education-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(0, 238, 255, 0.1), transparent);
+      transform: translateX(-100%);
+      transition: 0.5s;
+    }
+
+    .education-card:hover::before {
+      transform: translateX(100%);
+    }
+
+    .education-card:hover {
+      transform: translateY(-10px);
+      border-color: #00eeff;
+      box-shadow: 0 10px 30px rgba(0, 238, 255, 0.2);
+    }
+
+    .education-year {
+      color: #00eeff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: inline-block;
+      padding: 5px 15px;
+      background: rgba(0, 238, 255, 0.1);
+      border-radius: 20px;
+    }
+
+    .education-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .education-institution {
+      color: #00ff88;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    .education-description {
+      color: #b0b0b0;
+      line-height: 1.6;
+    }
+
+    .timeline-dot {
+      width: 20px;
+      height: 20px;
+      background: #00eeff;
+      border-radius: 50%;
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      box-shadow: 0 0 20px #00eeff;
+    }
+  </style>
+</head>
+
+<body class="overflow-x-hidden">
+  <!-- Custom Cursor -->
+  <div class="cursor hidden md:block"></div>
+
+  <!-- Navigation - WITH EDUCATION LINK ADDED -->
+  <nav class="fixed top-0 left-0 w-full z-50 py-4 bg-[#1f242d] bg-opacity-90 backdrop-blur-sm">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between items-center">
+        <!-- Logo with image and text -->
+        <div class="logo-container" id="logo-container">
+          <div class="logo-circle" id="logo-image-container">
+            <img id="logo-image" src="https://via.placeholder.com/100/1f242d/00eeff?text=TB" alt="Logo"
+              onerror="this.style.display='none'">
+          </div>
+          <span class="logo-text">PORTFOLIO.</span>
+        </div>
+
+        <!-- Desktop Navigation - EDUCATION LINK ADDED HERE -->
+        <div class="hidden md:flex space-x-8 items-center">
+          <a href="#home" class="nav-link text-white hover:text-[#00eeff] transition" data-i18n="nav_home">Home</a>
+          <a href="#about" class="nav-link text-white hover:text-[#00eeff] transition" data-i18n="nav_about">About</a>
+          <a href="#education" class="nav-link text-white hover:text-[#00eeff] transition"
+            data-i18n="nav_education">Education</a>
+          <a href="#skills" class="nav-link text-white hover:text-[#00eeff] transition"
+            data-i18n="nav_skills">Skills</a>
+          <a href="#projects" class="nav-link text-white hover:text-[#00eeff] transition"
+            data-i18n="nav_portfolio">Portfolio</a>
+          <a href="#contact" class="nav-link text-white hover:text-[#00eeff] transition"
+            data-i18n="nav_contact">Contact</a>
+
+          <!-- Language Selector & Theme Toggle in Header -->
+          <select id="language-selector" class="header-language-selector" aria-label="Select Language">
+            <option value="en">EN</option>
+            <option value="am">አማ</option>
+            <option value="ar">ع</option>
+          </select>
+          <button id="theme-toggle" class="header-theme-toggle" aria-label="Toggle Theme" title="Toggle Theme">
+            <i class="fas fa-sun"></i>
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button & Settings -->
+        <div class="md:hidden flex items-center gap-3">
+          <select id="language-selector-mobile" class="header-language-selector-mobile" aria-label="Select Language">
+            <option value="en">EN</option>
+            <option value="am">አማ</option>
+            <option value="ar">ع</option>
+          </select>
+          <button id="theme-toggle-mobile" class="header-theme-toggle-mobile" aria-label="Toggle Theme"
+            title="Toggle Theme">
+            <i class="fas fa-sun"></i>
+          </button>
+          <button id="mobile-menu-btn" class="text-white text-2xl">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation - EDUCATION LINK ADDED HERE -->
+      <div id="mobile-menu" class="hidden md:hidden mt-4 bg-[#2a313c] rounded-lg p-4">
+        <div class="flex flex-col space-y-3">
+          <a href="#home" class="nav-link text-white hover:text-[#00eeff] transition py-2" data-i18n="nav_home">Home</a>
+          <a href="#about" class="nav-link text-white hover:text-[#00eeff] transition py-2"
+            data-i18n="nav_about">About</a>
+          <a href="#education" class="nav-link text-white hover:text-[#00eeff] transition py-2"
+            data-i18n="nav_education">Education</a>
+          <a href="#skills" class="nav-link text-white hover:text-[#00eeff] transition py-2"
+            data-i18n="nav_skills">Skills</a>
+          <a href="#projects" class="nav-link text-white hover:text-[#00eeff] transition py-2"
+            data-i18n="nav_portfolio">Portfolio</a>
+          <a href="#contact" class="nav-link text-white hover:text-[#00eeff] transition py-2"
+            data-i18n="nav_contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="min-h-screen flex items-center pt-20">
+    <!-- Particles Background -->
+    <div class="particles absolute inset-0 overflow-hidden" id="particles"></div>
+
+    <div class="max-w-6xl mx-auto px-4 py-12 w-full">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <!-- Left Content -->
+        <div class="fade-in">
+          <p class="text-[#00eeff] text-xl mb-3" data-i18n="hero_hello">Hello, It's Me</p>
+          <h1 class="text-5xl md:text-6xl font-bold mb-3">
+            <span id="profile-name" class="text-white" data-i18n="hero_name">Alemenew Dubie</span>
+          </h1>
+          <div class="text-2xl md:text-3xl font-semibold mb-5">
+            <span class="text-white" data-i18n="hero_and">And I'm a </span>
+            <span class="typing-container">
+              <span id="typed-text" class="typed-text text-gradient">full-stack Web Developer</span>
+            </span>
+          </div>
+          <p class="text-gray-300 mb-8 text-lg max-w-xl" data-i18n="hero_description">
+            A passionate Software Engineer with strong problem-solving skills and a focus on building efficient,
+            scalable applications.
+          </p>
+
+          <!-- Social Media Links -->
+          <div class="flex space-x-4 mb-8">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/alemenew-dubie-4876aa388/" class="social-icon"><i
+                class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/ALEXU932" class="social-icon"><i class="fab fa-github"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            <a href="https://t.me/ALEXU2127" class="social-icon"><i class="fab fa-telegram-plane"></i></a>
+          </div>
+
+          <!-- Download CV Button -->
+          <a href="/resume.pdf" download class="btn">
+            <span data-i18n="hero_download_cv">Download CV</span> <i class="fas fa-download ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Right Content - Profile Image -->
+        <div class="flex justify-center md:justify-end fade-in">
+          <div class="profile-container float-animation">
+            <div class="profile-border"></div>
+            <div class="profile-border-2"></div>
+            <div class="profile-image-wrapper">
+              <img id="profile-image" src="https://via.placeholder.com/400" alt="Profile" class="profile-img">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-[#1a1f29]">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-12">
+        <span data-i18n="about_title">About</span> <span class="text-gradient" data-i18n="about_me">Me</span>
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <!-- About Image -->
+        <div class="flex justify-center slide-in-left">
+          <div class="about-image-container">
+            <div class="about-border"></div>
+            <div class="about-image-wrapper">
+              <img id="about-image" src="https://via.placeholder.com/400" alt="About" class="w-full h-full object-cover"
+                style="object-position: center 18%;">
+            </div>
+          </div>
+        </div>
+
+        <!-- About Content -->
+        <div class="slide-in-right">
+          <h3 class="text-3xl font-semibold mb-4">
+            <span data-i18n="about_im">I'm a</span> <span class="text-gradient" data-i18n="about_frontend">full-stack
+              Developer</span>
+          </h3>
+          <p class="text-gray-300 mb-6" data-i18n="about_description_1">
+             I am a motivated Software Engineer with one year of hands-on experience in system development and modern technologies. I have a growing interest in Artificial Intelligence (AI) and Machine Learning (ML), and I am passionate about building intelligent solutions that address real-world problems.
+
+          I possess strong analytical and problem-solving skills, enabling me to design efficient, scalable, and reliable applications. I am a fast learner who adapts quickly to new challenges and continuously works to improve my technical abilities while staying up to date with emerging technologies.
+
+   I am highly passionate about becoming a well-rounded full-stack developer, with a strong eagerness to learn, innovate, and turn complex ideas into practical and impactful solutions.
+          </p>
+          <p class="text-gray-300 mb-8" data-i18n="about_description_2">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, voluptates! Quisquam, voluptatum.
+          </p>
+
+          <!-- Social Links in About Section -->
+          <div class="flex space-x-4 mb-8">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/alemenew-dubie-4876aa388/" class="social-icon"><i
+                class="fab fa-linkedin-in"></i></a>
+            <a href="https://t.me/ALEXU2127" class="social-icon"><i class="fab fa-telegram-plane"></i></a>
+          </div>
+
+          <!-- Read More Button -->
+          <a href="#" class="btn"><span data-i18n="about_read_more">Read More</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section - NEW SECTION ADDED -->
+  <section id="education" class="py-20 bg-[#1f242d]">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-12">
+        <span data-i18n="education_title">My</span> <span class="text-gradient"
+          data-i18n="education_education">Education</span>
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Education Card 1 -->
+        <div class="education-card fade-in">
+          <span class="education-year">2020 - 2024</span>
+          <h3 class="education-title">I was high-school student</h3>
+          <p class="education-institution">kimir dingay high-school</p>
+          <p class="education-description">
+            scored with honors grades .
+             after join the unversity I Focused on web development, algorithms, and software engineering.
+            Completed multiple projects including full-stack web applications.
+          </p>
+        </div>
+
+        <!-- Education Card 2 -->
+        <div class="education-card fade-in">
+          <span class="education-year">2025 - 2026</span>
+          <h3 class="education-title">Learn  of Computer Applications</h3>
+          <p class="education-institution">Institute of Information Technology</p>
+          <p class="education-description">
+            Specialized in advanced web technologies and cloud computing.
+            Research focused on modern JavaScript frameworks and responsive design patterns.
+          </p>
+        </div>
+
+        <!-- Education Card 3 -->
+        <div class="education-card fade-in">
+          <span class="education-year">2016 - 2018</span>
+          <h3 class="education-title">Higher Secondary Education</h3>
+          <p class="education-institution">City College</p>
+          <p class="education-description">
+            Major in Computer Science with Mathematics. Achieved top grades in programming fundamentals
+            and web design courses.
+          </p>
+        </div>
+
+        <!-- Education Card 4 -->
+        <div class="education-card fade-in">
+          <span class="education-year">2014 - 2016</span>
+          <h3 class="education-title">Web Development Bootcamp</h3>
+          <p class="education-institution">Tech Academy</p>
+          <p class="education-description">
+            Intensive 2-year program covering HTML5, CSS3, JavaScript, React, Node.js, and database management.
+            Try to Built multiple real-world projects.
+          </p>
+        </div>
+      </div>
+
+      <!-- Additional Certifications -->
+      <div class="mt-12 text-center">
+        <h3 class="text-2xl font-semibold mb-6" data-i18n="education_certifications">Certifications & Awards for the future's </h3>
+        <div class="flex flex-wrap justify-center gap-4">
+          <span class="px-4 py-2 bg-[#00eeff] bg-opacity-10 text-[#00eeff] rounded-full border border-[#00eeff]">
+            <i class="fas fa-certificate mr-2"></i>AWS Certified Developer
+          </span>
+          <span class="px-4 py-2 bg-[#00eeff] bg-opacity-10 text-[#00eeff] rounded-full border border-[#00eeff]">
+            <i class="fas fa-certificate mr-2"></i>Google UX Design Certificate
+          </span>
+          <span class="px-4 py-2 bg-[#00eeff] bg-opacity-10 text-[#00eeff] rounded-full border border-[#00eeff]">
+            <i class="fas fa-trophy mr-2"></i>Hackathon Winner 2026
+          </span>
+          <span class="px-4 py-2 bg-[#00eeff] bg-opacity-10 text-[#00eeff] rounded-full border border-[#00eeff]">
+            <i class="fas fa-certificate mr-2"></i>Meta Frontend Developer
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="py-20 bg-[#1a1f29]">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-12">
+        <span data-i18n="skills_title">My</span> <span class="text-gradient" data-i18n="skills_skills">Skills</span>
+      </h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 stagger-container">
+        <!-- Skill 1: HTML5 -->
+        <div class="glass-effect rounded-xl p-5 text-center hover-lift">
+          <i class="fab fa-html5 text-4xl text-orange-500 mb-2"></i>
+          <h3 class="font-semibold text-lg mb-2">HTML5</h3>
+          <div class="relative pt-1">
+            <div class="flex mb-2 items-center justify-between">
+              <span class="text-xs font-semibold inline-block text-[#00eeff]">
+                <span id="skill-1-percent">0</span>%
+              </span>
+            </div>
+            <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-700">
+              <div
+                class="skill-progress shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-[#00eeff] to-[#00ff88]"
+                style="width: 0%" data-percent="95" data-skill-id="skill-1-percent"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skill 2: CSS3 -->
+        <div class="glass-effect rounded-xl p-5 text-center hover-lift">
+          <i class="fab fa-css3-alt text-4xl text-blue-500 mb-2"></i>
+          <h3 class="font-semibold text-lg mb-2">CSS3</h3>
+          <div class="relative pt-1">
+            <div class="flex mb-2 items-center justify-between">
+              <span class="text-xs font-semibold inline-block text-[#00eeff]">
+                <span id="skill-2-percent">0</span>%
+              </span>
+            </div>
+            <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-700">
+              <div
+                class="skill-progress shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-[#00eeff] to-[#00ff88]"
+                style="width: 0%" data-percent="90" data-skill-id="skill-2-percent"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skill 3: JavaScript -->
+        <div class="glass-effect rounded-xl p-5 text-center hover-lift">
+          <i class="fab fa-js text-4xl text-yellow-500 mb-2"></i>
+          <h3 class="font-semibold text-lg mb-2">JavaScript</h3>
+          <div class="relative pt-1">
+            <div class="flex mb-2 items-center justify-between">
+              <span class="text-xs font-semibold inline-block text-[#00eeff]">
+                <span id="skill-3-percent">0</span>%
+              </span>
+            </div>
+            <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-700">
+              <div
+                class="skill-progress shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-[#00eeff] to-[#00ff88]"
+                style="width: 0%" data-percent="85" data-skill-id="skill-3-percent"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skill 4: Node.js -->
+        <div class="glass-effect rounded-xl p-5 text-center hover-lift">
+          <i class="fab fa-node text-4xl text-green-600 mb-2"></i>
+          <h3 class="font-semibold text-lg mb-2">Node.js</h3>
+          <div class="relative pt-1">
+            <div class="flex mb-2 items-center justify-between">
+              <span class="text-xs font-semibold inline-block text-[#00eeff]">
+                <span id="skill-4-percent">0</span>%
+              </span>
+            </div>
+            <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-700">
+              <div
+                class="skill-progress shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-[#00eeff] to-[#00ff88]"
+                style="width: 0%" data-percent="80" data-skill-id="skill-4-percent"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skill 5: MySQL -->
+        <div class="glass-effect rounded-xl p-5 text-center hover-lift">
+          <i class="fas fa-database text-4xl text-blue-700 mb-2"></i>
+          <h3 class="font-semibold text-lg mb-2">MySQL</h3>
+          <div class="relative pt-1">
+            <div class="flex mb-2 items-center justify-between">
+              <span class="text-xs font-semibold inline-block text-[#00eeff]">
+                <span id="skill-5-percent">0</span>%
+              </span>
+            </div>
+            <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-700">
+              <div
+                class="skill-progress shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-[#00eeff] to-[#00ff88]"
+                style="width: 0%" data-percent="75" data-skill-id="skill-5-percent"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skill 6: React -->
+        <div class="glass-effect rounded-xl p-5 text-center hover-lift">
+          <i class="fab fa-react text-4xl text-cyan-500 mb-2"></i>
+          <h3 class="font-semibold text-lg mb-2">React</h3>
+          <div class="relative pt-1">
+            <div class="flex mb-2 items-center justify-between">
+              <span class="text-xs font-semibold inline-block text-[#00eeff]">
+                <span id="skill-6-percent">0</span>%
+              </span>
+            </div>
+            <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-700">
+              <div
+                class="skill-progress shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-[#00eeff] to-[#00ff88]"
+                style="width: 0%" data-percent="82" data-skill-id="skill-6-percent"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skill 7: Git -->
+        <div class="glass-effect rounded-xl p-5 text-center hover-lift">
+          <i class="fab fa-git-alt text-4xl text-red-600 mb-2"></i>
+          <h3 class="font-semibold text-lg mb-2">Git</h3>
+          <div class="relative pt-1">
+            <div class="flex mb-2 items-center justify-between">
+              <span class="text-xs font-semibold inline-block text-[#00eeff]">
+                <span id="skill-7-percent">0</span>%
+              </span>
+            </div>
+            <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-700">
+              <div
+                class="skill-progress shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-[#00eeff] to-[#00ff88]"
+                style="width: 0%" data-percent="88" data-skill-id="skill-7-percent"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skill 8: Express.js -->
+        <div class="glass-effect rounded-xl p-5 text-center hover-lift">
+          <i class="fas fa-server text-4xl text-gray-400 mb-2"></i>
+          <h3 class="font-semibold text-lg mb-2">Express.js</h3>
+          <div class="relative pt-1">
+            <div class="flex mb-2 items-center justify-between">
+              <span class="text-xs font-semibold inline-block text-[#00eeff]">
+                <span id="skill-8-percent">0</span>%
+              </span>
+            </div>
+            <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-700">
+              <div
+                class="skill-progress shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-[#00eeff] to-[#00ff88]"
+                style="width: 0%" data-percent="78" data-skill-id="skill-8-percent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-20 bg-[#1f242d]">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-12">
+        <span data-i18n="projects_title">Latest</span> <span class="text-gradient"
+          data-i18n="projects_projects">Projects</span>
+      </h2>
+
+      <div id="projects-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="col-span-full text-center text-gray-400 py-12">
+          <i class="fas fa-spinner fa-spin text-4xl mb-2 text-[#00eeff]"></i>
+          <p>Loading projects...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-[#1a1f29]">
+    <div class="max-w-6xl mx-auto px-4">
+
+      <!-- Section heading -->
+      <div class="text-center mb-14">
+        <p class="text-[#00eeff] text-sm font-semibold uppercase tracking-widest mb-2" data-i18n="contact_get_in_touch">
+          Get In Touch</p>
+        <h2 class="text-4xl md:text-5xl font-bold">
+          <span data-i18n="contact_title">Contact</span> <span class="text-gradient" data-i18n="contact_me">Me</span>
+        </h2>
+        <div class="w-12 h-1 bg-[#00eeff] mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-start">
+
+        <!-- LEFT — info column -->
+        <div class="space-y-8">
+          <div>
+            <h3 class="text-2xl font-bold mb-3" data-i18n="contact_lets_work">Let's work together</h3>
+            <p class="text-gray-400 leading-relaxed" data-i18n="contact_intro">
+              I'm open to freelance opportunities, internships, and full-time positions in
+              software engineering and web development. Feel free to reach out!
+            </p>
+          </div>
+
+          <!-- Contact info items -->
+          <div class="space-y-5">
+            <div class="flex items-center gap-4">
+              <div
+                class="w-11 h-11 rounded-full border border-[#00eeff] flex items-center justify-center text-[#00eeff] flex-shrink-0">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 uppercase tracking-wider mb-0.5" data-i18n="contact_label_email">Email
+                </p>
+                <a href="mailto:teweldebirhan@email.com"
+                  class="text-gray-300 hover:text-[#00eeff] transition text-sm">alexdubie@333@email.com</a>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div
+                class="w-11 h-11 rounded-full border border-[#00eeff] flex items-center justify-center text-[#00eeff] flex-shrink-0">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 uppercase tracking-wider mb-0.5" data-i18n="contact_label_phone">Phone
+                </p>
+                <a href="tel:+251900000000" class="text-gray-300 hover:text-[#00eeff] transition text-sm">+251
+                  933341253</a>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div
+                class="w-11 h-11 rounded-full border border-[#00eeff] flex items-center justify-center text-[#00eeff] flex-shrink-0">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 uppercase tracking-wider mb-0.5" data-i18n="contact_label_location">
+                  Location</p>
+                <span class="text-gray-300 text-sm">Kombolcha, Wollo, Ethiopia</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social icons -->
+          <div class="flex gap-3 pt-2">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/alemenew-dubie-4876aa388/" class="social-icon"><i
+                class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/ALEXU932" class="social-icon"><i class="fab fa-github"></i></a>
+            <a href="https://t.me/ALEXU2127" class="social-icon"><i class="fab fa-telegram-plane"></i></a>
+          </div>
+        </div>
+
+        <!-- RIGHT — form -->
+        <div>
+          <form id="contact-form" class="space-y-5">
+            <div class="grid md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-xs text-gray-400 uppercase tracking-wider mb-1"
+                  data-i18n="contact_label_name">Full Name</label>
+                <input type="text" name="name" data-i18n="contact_name" placeholder="Your name" required
+                  class="w-full px-5 py-3 bg-transparent border border-gray-700 rounded-lg text-white focus:border-[#00eeff] transition outline-none text-sm">
+              </div>
+              <div>
+                <label class="block text-xs text-gray-400 uppercase tracking-wider mb-1"
+                  data-i18n="contact_label_email_addr">Email Address</label>
+                <input type="email" name="email" data-i18n="contact_email" placeholder="your@email.com" required
+                  class="w-full px-5 py-3 bg-transparent border border-gray-700 rounded-lg text-white focus:border-[#00eeff] transition outline-none text-sm">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 uppercase tracking-wider mb-1"
+                data-i18n="contact_label_subject">Subject</label>
+              <input type="text" name="subject" data-i18n="contact_subject" placeholder="How can I help?" required
+                class="w-full px-5 py-3 bg-transparent border border-gray-700 rounded-lg text-white focus:border-[#00eeff] transition outline-none text-sm">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 uppercase tracking-wider mb-1"
+                data-i18n="contact_label_message">Message</label>
+              <textarea name="message" data-i18n="contact_message" placeholder="Tell me about your project..." required
+                rows="5"
+                class="w-full px-5 py-3 bg-transparent border border-gray-700 rounded-lg text-white focus:border-[#00eeff] transition outline-none text-sm"></textarea>
+            </div>
+
+            <!-- File Attachment -->
+            <div>
+              <label class="block text-gray-400 mb-2 text-xs uppercase tracking-wider">
+                <i class="fas fa-paperclip mr-1 text-[#00eeff]"></i>
+                <span data-i18n="contact_attach">Attach files (optional)</span>
+                <span class="text-gray-600 ml-2 normal-case">PDF, DOCX, JPG, PNG, MP4 · max 10MB · up to 5</span>
+              </label>
+              <label id="file-drop-zone"
+                class="flex flex-col items-center justify-center w-full border border-dashed border-gray-600 rounded-lg py-5 px-4 cursor-pointer hover:border-[#00eeff] transition-colors">
+                <i class="fas fa-cloud-upload-alt text-2xl text-gray-500 mb-1"></i>
+                <span class="text-gray-500 text-xs" data-i18n="contact_drop_files">Click to select or drag & drop files
+                  here</span>
+                <input type="file" id="attachment-input" name="attachments" multiple
+                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.mp4" class="hidden">
+              </label>
+              <ul id="file-preview-list" class="mt-3 space-y-2"></ul>
+            </div>
+
+            <button type="submit" class="btn w-full">
+              <span data-i18n="contact_send">Send Message</span> <i class="fas fa-paper-plane ml-2"></i>
+            </button>
+          </form>
+          <div id="form-message" class="mt-4 text-center"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#1f242d] py-6">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p class="text-gray-400">&copy; 2026 Alemenew Dubie. <span data-i18n="footer_rights">All rights reserved.</span>
+      </p>
+      <!--  <div class="flex justify-center gap-4 mt-4">
+        <a href="/admin.html" class="text-gray-500 hover:text-[#00eeff] text-sm transition">
+          <i class="fas fa-cog"></i> <span data-i18n="footer_admin">Admin</span>
+        </a>
+      </div> -->
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/i18n.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/script.js"></script>
+</body>
+
+</html>

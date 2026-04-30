@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Uploaded files
+frontend/uploads/*
+!frontend/uploads/.gitkeep
+frontend/contact_attachments/*
+!frontend/contact_attachments/.gitkeep
+
+# Personal files
+frontend/resume.pdf
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+.cache/

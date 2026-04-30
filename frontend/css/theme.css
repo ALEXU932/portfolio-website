@@ -1,0 +1,727 @@
+/* Theme Variables */
+:root {
+  --bg-primary: #1f242d;
+  --bg-secondary: #1a1f29;
+  --bg-tertiary: #2a313c;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-tertiary: #808080;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --scrollbar-track: #1f242d;
+  --scrollbar-thumb: #00eeff;
+  --neon-primary: #00eeff;
+  --neon-secondary: #00ff88;
+}
+
+/* Theme-specific body styles */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light theme overrides */
+body.theme-light {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* All text elements in light theme should be black */
+body.theme-light,
+body.theme-light h1,
+body.theme-light h2,
+body.theme-light h3,
+body.theme-light h4,
+body.theme-light h5,
+body.theme-light h6,
+body.theme-light p,
+body.theme-light span,
+body.theme-light div,
+body.theme-light a,
+body.theme-light label,
+body.theme-light li {
+  color: var(--text-primary);
+}
+
+/* Navigation links */
+body.theme-light .nav-link {
+  color: var(--text-primary) !important;
+}
+
+body.theme-light .nav-link:hover,
+body.theme-light .nav-link.active {
+  color: var(--neon-primary) !important;
+}
+
+/* White text classes should become black in light mode */
+body.theme-light .text-white {
+  color: var(--text-primary) !important;
+}
+
+/* Logo text */
+body.theme-light .logo-text {
+  background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Education section */
+body.theme-light .education-title {
+  color: var(--text-primary) !important;
+}
+
+body.theme-light .education-year {
+  color: var(--neon-primary);
+  background: rgba(0, 136, 204, 0.1);
+}
+
+body.theme-light .education-institution {
+  color: var(--neon-secondary);
+}
+
+body.theme-light .education-description {
+  color: var(--text-secondary);
+}
+
+/* Form inputs */
+body.theme-light input,
+body.theme-light textarea,
+body.theme-light select {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-primary) !important;
+}
+
+body.theme-light input::placeholder,
+body.theme-light textarea::placeholder {
+  color: var(--text-tertiary) !important;
+}
+
+/* Contact form specific */
+body.theme-light input.bg-transparent,
+body.theme-light textarea.bg-transparent {
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
+}
+
+body.theme-light input.text-white,
+body.theme-light textarea.text-white {
+  color: var(--text-primary) !important;
+}
+
+/* Skill progress bars */
+body.theme-light .skill-progress.text-white {
+  color: #ffffff !important;
+}
+
+/* Mobile menu button */
+body.theme-light #mobile-menu-btn {
+  color: var(--text-primary) !important;
+}
+
+/* Buttons */
+body.theme-light .btn {
+  background: var(--neon-primary);
+  color: #ffffff !important;
+  box-shadow: 0 0 10px var(--neon-primary);
+}
+
+body.theme-light .social-icon {
+  border-color: var(--neon-primary);
+  color: var(--neon-primary);
+}
+
+body.theme-light .social-icon:hover {
+  background: var(--neon-primary);
+  color: #ffffff !important;
+}
+
+/* Admin and Upload pages */
+body.theme-light.admin-page,
+body.theme-light.upload-page {
+  background-color: #f9fafb;
+  color: var(--text-primary);
+}
+
+body.theme-dark.admin-page,
+body.theme-dark.upload-page {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* Light theme text colors */
+body.theme-light.admin-page h1,
+body.theme-light.admin-page h2,
+body.theme-light.admin-page h3,
+body.theme-light.admin-page p,
+body.theme-light.admin-page label,
+body.theme-light.admin-page span,
+body.theme-light.upload-page h1,
+body.theme-light.upload-page h2,
+body.theme-light.upload-page h3,
+body.theme-light.upload-page p,
+body.theme-light.upload-page label,
+body.theme-light.upload-page span {
+  color: var(--text-primary) !important;
+}
+
+/* Dark theme text colors - ensure visibility */
+body.theme-dark.admin-page h1,
+body.theme-dark.admin-page h2,
+body.theme-dark.admin-page h3,
+body.theme-dark.admin-page p,
+body.theme-dark.admin-page label,
+body.theme-dark.admin-page span:not(.text-blue-600):not(.text-red-600):not(.text-green-600),
+body.theme-dark.upload-page h1,
+body.theme-dark.upload-page h2,
+body.theme-dark.upload-page h3,
+body.theme-dark.upload-page p,
+body.theme-dark.upload-page label,
+body.theme-dark.upload-page span:not(.text-blue-600):not(.text-red-600):not(.text-green-600) {
+  color: var(--text-primary) !important;
+}
+
+/* Gray text classes in dark mode - make them lighter */
+body.theme-dark.admin-page .text-gray-700,
+body.theme-dark.upload-page .text-gray-700 {
+  color: #d1d5db !important;
+}
+
+body.theme-dark.admin-page .text-gray-600,
+body.theme-dark.upload-page .text-gray-600 {
+  color: #9ca3af !important;
+}
+
+body.theme-dark.admin-page .text-gray-500,
+body.theme-dark.upload-page .text-gray-500 {
+  color: #6b7280 !important;
+}
+
+/* Light theme gray text */
+body.theme-light.admin-page .text-gray-700,
+body.theme-light.upload-page .text-gray-700 {
+  color: var(--text-primary) !important;
+}
+
+body.theme-light.admin-page .text-gray-600,
+body.theme-light.upload-page .text-gray-600 {
+  color: var(--text-secondary) !important;
+}
+
+body.theme-light.admin-page .text-gray-500,
+body.theme-light.upload-page .text-gray-500 {
+  color: var(--text-tertiary) !important;
+}
+
+/* Keep blue colors for admin/upload pages */
+body.theme-light.admin-page .text-blue-600,
+body.theme-light.upload-page .text-blue-600,
+body.theme-dark.admin-page .text-blue-600,
+body.theme-dark.upload-page .text-blue-600 {
+  color: #2563eb !important;
+}
+
+body.theme-light.admin-page .hover\:text-blue-600:hover,
+body.theme-light.upload-page .hover\:text-blue-600:hover,
+body.theme-dark.admin-page .hover\:text-blue-600:hover,
+body.theme-dark.upload-page .hover\:text-blue-600:hover {
+  color: #1d4ed8 !important;
+}
+
+body.theme-light.admin-page .bg-blue-600,
+body.theme-light.upload-page .bg-blue-600,
+body.theme-dark.admin-page .bg-blue-600,
+body.theme-dark.upload-page .bg-blue-600 {
+  background-color: #2563eb !important;
+}
+
+body.theme-light.admin-page .hover\:bg-blue-700:hover,
+body.theme-light.upload-page .hover\:bg-blue-700:hover,
+body.theme-dark.admin-page .hover\:bg-blue-700:hover,
+body.theme-dark.upload-page .hover\:bg-blue-700:hover {
+  background-color: #1d4ed8 !important;
+}
+
+/* Keep red colors for delete buttons */
+body.theme-light.admin-page .text-red-600,
+body.theme-light.upload-page .text-red-600,
+body.theme-dark.admin-page .text-red-600,
+body.theme-dark.upload-page .text-red-600 {
+  color: #dc2626 !important;
+}
+
+body.theme-light.admin-page .hover\:text-red-800:hover,
+body.theme-light.upload-page .hover\:text-red-800:hover,
+body.theme-dark.admin-page .hover\:text-red-800:hover,
+body.theme-dark.upload-page .hover\:text-red-800:hover {
+  color: #991b1b !important;
+}
+
+/* Keep green colors for success messages */
+body.theme-light.admin-page .text-green-600,
+body.theme-light.upload-page .text-green-600,
+body.theme-dark.admin-page .text-green-600,
+body.theme-dark.upload-page .text-green-600 {
+  color: #16a34a !important;
+}
+
+body.theme-light.admin-page .text-green-800,
+body.theme-light.upload-page .text-green-800,
+body.theme-dark.admin-page .text-green-800,
+body.theme-dark.upload-page .text-green-800 {
+  color: #166534 !important;
+}
+
+/* Admin/Upload page inputs */
+body.theme-light.admin-page input,
+body.theme-light.admin-page textarea,
+body.theme-light.admin-page select,
+body.theme-light.upload-page input,
+body.theme-light.upload-page textarea,
+body.theme-light.upload-page select {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+body.theme-light.admin-page input::placeholder,
+body.theme-light.admin-page textarea::placeholder,
+body.theme-light.upload-page input::placeholder,
+body.theme-light.upload-page textarea::placeholder {
+  color: var(--text-tertiary) !important;
+}
+
+body.theme-dark.admin-page input,
+body.theme-dark.admin-page textarea,
+body.theme-dark.admin-page select,
+body.theme-dark.upload-page input,
+body.theme-dark.upload-page textarea,
+body.theme-dark.upload-page select {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+body.theme-dark.admin-page input::placeholder,
+body.theme-dark.admin-page textarea::placeholder,
+body.theme-dark.upload-page input::placeholder,
+body.theme-dark.upload-page textarea::placeholder {
+  color: var(--text-tertiary) !important;
+}
+
+/* Button text should stay white */
+body.theme-light.admin-page button.bg-blue-600,
+body.theme-light.upload-page button.bg-blue-600,
+body.theme-dark.admin-page button.bg-blue-600,
+body.theme-dark.upload-page button.bg-blue-600 {
+  color: #ffffff !important;
+}
+
+/* Links in admin/upload */
+body.theme-light.admin-page a.text-blue-600,
+body.theme-light.upload-page a.text-blue-600,
+body.theme-dark.admin-page a.text-blue-600,
+body.theme-dark.upload-page a.text-blue-600 {
+  color: #2563eb !important;
+}
+
+body.theme-light.admin-page a.hover\:underline:hover,
+body.theme-light.upload-page a.hover\:underline:hover,
+body.theme-dark.admin-page a.hover\:underline:hover,
+body.theme-dark.upload-page a.hover\:underline:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+body.theme-light footer,
+body.theme-light footer p,
+body.theme-light footer a {
+  color: var(--text-primary);
+}
+
+body.theme-light footer a:hover {
+  color: var(--neon-primary);
+}
+
+/* Ensure all text inherits proper color */
+body.theme-light * {
+  color: inherit;
+}
+
+/* Override specific utility classes that should remain colored */
+body.theme-light .text-\[\#00eeff\],
+body.theme-light .text-\[var\(--neon-primary\)\] {
+  color: var(--neon-primary) !important;
+}
+
+body.theme-light .text-\[\#00ff88\],
+body.theme-light .text-\[var\(--neon-secondary\)\] {
+  color: var(--neon-secondary) !important;
+}
+
+/* Projects section text colors */
+body.theme-light #projects-container .text-gray-400 {
+  color: var(--text-secondary) !important;
+}
+
+body.theme-light #projects-container .text-gray-500 {
+  color: var(--text-tertiary) !important;
+}
+
+/* Loading and error messages */
+body.theme-light .text-red-500 {
+  color: #ef4444 !important;
+}
+
+body.theme-light .text-green-500 {
+  color: #22c55e !important;
+}
+
+body.theme-light .glass-effect {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+}
+
+body.theme-light nav {
+  background-color: var(--bg-primary) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light #about,
+body.theme-light #skills {
+  background-color: var(--bg-secondary);
+}
+
+body.theme-light #education,
+body.theme-light #projects {
+  background-color: var(--bg-primary);
+}
+
+body.theme-light #contact {
+  background-color: var(--bg-secondary);
+}
+
+body.theme-light footer {
+  background-color: var(--bg-primary);
+}
+
+body.theme-light .text-gray-300,
+body.theme-light .text-gray-400 {
+  color: var(--text-secondary) !important;
+}
+
+body.theme-light .text-gray-500 {
+  color: var(--text-tertiary) !important;
+}
+
+body.theme-light .border-gray-700 {
+  border-color: var(--border-color) !important;
+}
+
+body.theme-light .bg-gray-700 {
+  background-color: var(--bg-tertiary) !important;
+}
+
+body.theme-light .bg-[#2a313c] {
+  background-color: var(--bg-tertiary) !important;
+}
+
+body.theme-light .bg-[#1f242d] {
+  background-color: var(--bg-primary) !important;
+}
+
+body.theme-light .bg-[#1a1f29] {
+  background-color: var(--bg-secondary) !important;
+}
+
+body.theme-light .education-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--border-color);
+}
+
+body.theme-light .social-icon {
+  border-color: var(--neon-primary);
+  color: var(--neon-primary);
+}
+
+body.theme-light .social-icon:hover {
+  background: var(--neon-primary);
+  color: var(--bg-primary);
+}
+
+body.theme-light .btn {
+  background: var(--neon-primary);
+  color: var(--bg-primary);
+  box-shadow: 0 0 10px var(--neon-primary);
+}
+
+body.theme-light .text-gradient {
+  background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.theme-light .nav-link:hover,
+body.theme-light .nav-link.active {
+  color: var(--neon-primary) !important;
+}
+
+body.theme-light .typed-text {
+  border-right-color: var(--neon-primary);
+}
+
+body.theme-light .profile-border {
+  border-top-color: var(--neon-primary);
+  border-right-color: var(--neon-primary);
+}
+
+body.theme-light .profile-border-2,
+body.theme-light .about-border {
+  border-color: var(--neon-primary);
+}
+
+body.theme-light .logo-circle {
+  border-color: var(--neon-primary);
+  box-shadow: 0 0 15px rgba(0, 136, 204, 0.5);
+}
+
+body.theme-light .logo-text {
+  background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.theme-light .education-year {
+  color: var(--neon-primary);
+  background: rgba(0, 136, 204, 0.1);
+}
+
+body.theme-light .education-institution {
+  color: var(--neon-secondary);
+}
+
+body.theme-light .education-description {
+  color: var(--text-secondary);
+}
+
+body.theme-light .timeline-dot {
+  background: var(--neon-primary);
+  box-shadow: 0 0 20px var(--neon-primary);
+}
+
+body.theme-light .skill-progress {
+  background: linear-gradient(to right, var(--neon-primary), var(--neon-secondary)) !important;
+}
+
+body.theme-light .particle {
+  background: rgba(0, 136, 204, 0.2);
+}
+
+body.theme-light .cursor {
+  border-color: var(--neon-primary);
+}
+
+body.theme-light .cursor.hover {
+  background: rgba(0, 136, 204, 0.1);
+  border-color: var(--neon-secondary);
+}
+
+/* Scrollbar for light theme */
+body.theme-light ::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+body.theme-light ::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+}
+
+/* Header Settings Styles - Integrated in Navigation */
+.header-language-selector {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+}
+
+.header-language-selector:hover {
+  border-color: var(--neon-primary);
+  background: rgba(0, 238, 255, 0.1);
+}
+
+.header-language-selector option {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.header-theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.header-theme-toggle:hover {
+  background: var(--neon-primary);
+  color: var(--bg-primary);
+  border-color: var(--neon-primary);
+  transform: scale(1.05);
+}
+
+/* Mobile Header Settings */
+.header-language-selector-mobile {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  font-weight: 600;
+  outline: none;
+}
+
+.header-language-selector-mobile:hover {
+  border-color: var(--neon-primary);
+}
+
+.header-language-selector-mobile option {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.header-theme-toggle-mobile {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.header-theme-toggle-mobile:hover {
+  background: var(--neon-primary);
+  color: var(--bg-primary);
+  border-color: var(--neon-primary);
+}
+
+/* Admin & Upload Page Specific Styles */
+.admin-page .header-language-selector,
+.upload-page .header-language-selector {
+  background: #2563eb;
+  border: 1px solid #1d4ed8;
+  color: #ffffff;
+}
+
+.admin-page .header-language-selector:hover,
+.upload-page .header-language-selector:hover {
+  background: #1d4ed8;
+  border-color: #1e40af;
+}
+
+.admin-page .header-language-selector option,
+.upload-page .header-language-selector option {
+  background: #1e40af;
+  color: #ffffff;
+}
+
+.admin-page .header-theme-toggle,
+.upload-page .header-theme-toggle {
+  background: #2563eb;
+  border: 1px solid #1d4ed8;
+  color: #ffffff;
+}
+
+.admin-page .header-theme-toggle:hover,
+.upload-page .header-theme-toggle:hover {
+  background: #1d4ed8;
+  border-color: #1e40af;
+  transform: scale(1.05);
+}
+
+/* Light theme overrides for admin/upload pages */
+body.theme-light.admin-page .header-language-selector,
+body.theme-light.upload-page .header-language-selector {
+  background: #3b82f6;
+  border: 1px solid #2563eb;
+  color: #ffffff;
+}
+
+body.theme-light.admin-page .header-language-selector:hover,
+body.theme-light.upload-page .header-language-selector:hover {
+  background: #2563eb;
+  border-color: #1d4ed8;
+}
+
+body.theme-light.admin-page .header-theme-toggle,
+body.theme-light.upload-page .header-theme-toggle {
+  background: #3b82f6;
+  border: 1px solid #2563eb;
+  color: #ffffff;
+}
+
+body.theme-light.admin-page .header-theme-toggle:hover,
+body.theme-light.upload-page .header-theme-toggle:hover {
+  background: #2563eb;
+  border-color: #1d4ed8;
+}
+
+/* RTL Support for Arabic */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .flex {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .logo-container {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .text-gradient {
+  direction: ltr;
+  display: inline-block;
+}
+
+/* Admin page specific styles */
+.admin-page .admin-header-settings {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Upload page specific styles */
+.upload-page .upload-header-settings {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
